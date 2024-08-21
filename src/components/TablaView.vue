@@ -139,7 +139,14 @@ export default {
   methods: {
 
     obtenerTotalSQL() {
-      fetch('https://privilegecare-deploy.onrender.com/pediatria/nacimientogenero')
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
+      fetch('https://privilegecare-deploy.onrender.com/pediatria/nacimientogenero',{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => {
           if (!response.ok) {
             throw new Error('Error al obtener los datos');
@@ -163,7 +170,14 @@ export default {
     },
 
     obtenerBebes() {
-      fetch(`https://privilegecare-deploy.onrender.com/pediatria/nacimientos/?page=${this.paginaActual - 1}&limit=${this.itemsPorPagina}`)
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
+      fetch(`https://privilegecare-deploy.onrender.com/pediatria/nacimientos/?page=${this.paginaActual - 1}&limit=${this.itemsPorPagina}`,{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => {
           if (!response.ok) {
             throw new Error('Hubo un problema al obtener la lista de bebés.');
@@ -179,8 +193,13 @@ export default {
     },
 
     eliminarBebe(id) {
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
       fetch(`https://privilegecare-deploy.onrender.com/pediatria/nacimiento/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
       })
         .then(response => {
           if (!response.ok) {

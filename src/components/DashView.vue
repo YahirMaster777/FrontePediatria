@@ -18,10 +18,10 @@ export default {
       data: [],
       previousData: [],// Almacenar los datos anteriores
       colors: [
-      'rgba(255, 99, 132, 0.5)', // Rojo suave con transparencia
-      'rgba(255, 159, 64, 0.5)', // Naranja suave con transparencia
-      'rgba(139, 195, 74, 0.5)', // Verde lima suave con transparencia
-      'rgba(75, 192, 192, 0.5)'  // Verde azulado suave con transparencia
+      'rgb(255, 99, 132)', // Rojo suave con transparencia
+      'rgb(255, 159, 64)', // Naranja suave con transparencia
+      'rgb(139, 195, 74)', // Verde lima suave con transparencia
+      'rgb(75, 192, 192)'  // Verde azulado suave con transparencia
     ],
       
       
@@ -41,7 +41,15 @@ export default {
   },
   methods: {
     loadData() {
-      fetch('https://privilegecare-deploy.onrender.com/pediatria/nciudad/')
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
+
+      fetch('https://privilegecare-deploy.onrender.com/pediatria/nciudad/',{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');

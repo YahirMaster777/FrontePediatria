@@ -105,8 +105,15 @@ export default {
   },
   methods: {
     obtenerDatosBebe() {
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
       const id = this.$route.params.id;
-      fetch(`https://privilegecare-deploy.onrender.com/pediatria/nacimiento/${id}/`)
+      fetch(`https://privilegecare-deploy.onrender.com/pediatria/nacimiento/${id}/`,{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => {
           if (!response.ok) {
             throw new Error('No se pudieron obtener los datos del bebé.');
@@ -124,11 +131,12 @@ export default {
     submitForm() {
       this.message = "Guardando cambios...";
       const id = this.$route.params.id;
-
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
       fetch(`https://privilegecare-deploy.onrender.com/pediatria/nacimientoput/${id}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(this.bebe),
       })
