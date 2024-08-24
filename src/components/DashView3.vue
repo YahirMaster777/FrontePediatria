@@ -1,12 +1,9 @@
 <template>
     <div>
 
-            <div class="column" >
-                <canvas id="partoNaturalChart" ></canvas>
-            </div>
-            <!-- <div class="column">
+            <div class="column">
                 <canvas id="cesareaChart"></canvas>
-            </div> -->
+            </div>
 
         </div>
     </template>
@@ -15,19 +12,20 @@
 import Chart from 'chart.js/auto';
 
 export default {
-    name: 'DashView2',
+    name: 'DashView3',
     data() {
         return {
-            partoNaturalChart: null,
+            cesareaChart: null,
             currentData: {
-                pnMasculino: null,
-                pnFemenino: null,
-
+        
+                cMasculino: null,
+                cFemenino: null,
             },
             data: {
                 labels: [],
-                datasets: [{
-                    label: 'Parto Natural',
+                datasets: [
+                {
+                    label: 'Cesárea',
                     data: [],
                     backgroundColor: ['skyblue', 'lightpink']
                 }]
@@ -59,17 +57,15 @@ export default {
                 })
                 .then(data => {
                     // declaracion de las variables que contienen los datos necesario para la grafica
-                    const newPnMasculino = data[0].pn_masculino;
-                    const newPnFemenino = data[0].pn_femeninos;
-    
+                    const newCMasculino = data[0].c_masculino;
+                    const newCFemenino = data[0].c_femenino;
                     // Compara los datos nuevos con los actuales 
-                    if (this.currentData.pnMasculino !== newPnMasculino ||this.currentData.pnFemenino !== newPnFemenino) {
+                    if (this.currentData.cMasculino !== newCMasculino ||this.currentData.cFemenino !== newCFemenino) {
                         // si la condicion es verdadera se actualizan los datos actuales en la grafica
-                        this.currentData.pnMasculino = newPnMasculino;
-                        this.currentData.pnFemenino = newPnFemenino;
-
+                        this.currentData.cMasculino = newCMasculino;
+                        this.currentData.cFemenino = newCFemenino;
                         // se Llama a la función ActualizarDatos solo si hay cambios, para actualizar la tabla
-                        this.ActualizarDatos(newPnMasculino, newPnFemenino);
+                        this.ActualizarDatos(newCMasculino, newCFemenino);
                     }
                 })
                 .catch(error => {
@@ -78,20 +74,20 @@ export default {
         },
 
         /*Escript que se encarga de cargar los datos a las graficas*/
-        ActualizarDatos(pnMasculino, pnFemenino) {
+        ActualizarDatos(cMasculino, cFemenino) {
             let delayed;
             const data = this.data;
-            if (this.partoNaturalChart) {
-                this.partoNaturalChart.destroy();
+            if (this.cesareaChart) {
+                this.cesareaChart.destroy();
             }
-            const ctxPartoNatural = document.getElementById('partoNaturalChart').getContext('2d');
-            this.partoNaturalChart = new Chart(ctxPartoNatural, {
+            const ctxCesarea = document.getElementById('cesareaChart').getContext('2d');
+            this.cesareaChart = new Chart(ctxCesarea, {
                 type: 'pie',
                 data: {
                     labels: ['Masculino', 'Femenino'],
                     datasets: [{
                         label: data.datasets[0].label,
-                        data: [pnMasculino, pnFemenino],
+                        data: [cMasculino, cFemenino],
                         backgroundColor: data.datasets[0].backgroundColor
                     }]
                 },
@@ -100,13 +96,12 @@ export default {
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Comparación en Parto Natural'
+                            text: 'Comparación en Parto por Cesárea'
                         },
                         tooltips: {
                             enabled: false
                         }
                     },
-
                     animation: {
                         onComplete: () => {
                             delayed = true;
@@ -127,8 +122,6 @@ export default {
                             stacked: true
                         }
                     }
-
-
                 }
             });
         }

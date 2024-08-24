@@ -18,7 +18,6 @@
           placeholder="Buscar por nombre del padre o madre..."
           style="width: 80%; padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
       </div>
-  
       <div class="row align-items-center">
         <div class="col">
           <p>Total de registros en la base de datos:</p>
@@ -101,11 +100,52 @@
       Página {{ paginaActual }}
     </div>
   </div>
+
+  
+      
+  <div>
+    <form @submit.prevent="PoblarNacimientos">
+        <button type="submit" style="background-color: aquamarine;">Poblar Nacimientos</button>
+    </form>
+
+    <form @submit.prevent="EliminarNacimientos">
+        <button type="submit" style="background-color: aquamarine;">Eliminar Nacimientos</button>
+    </form>
+</div>
+
+  <div class="row align-items-center">
+    <div class="col">
+        <DashView></DashView>
+    </div>
+    <div class="col">
+    <DashView2></DashView2>
+    </div>
+    <div class="col">
+      <DashView3></DashView3>
+      </div>
+  </div>
+
+
+
+
+
 </template>
 
 <script>
 /* eslint-disable */
+import DashView from './DashView.vue';
+import DashView2 from './DashView2.vue';
+import DashView3 from './DashView3.vue';
+
+
 export default {
+  name: 'TablaView',
+  components: {
+    DashView,
+    DashView2,
+    DashView3
+  },
+ // Aquí registras el componente
   data() {
     return {
       bebes: [], 
@@ -137,7 +177,59 @@ export default {
     setInterval(this.obtenerTotalSQL, 2000);
   },
   methods: {
+    PoblarNacimientos() {
+                const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc';
+                const sql_query = "call test.InsertRandomBabies(100);";
 
+                fetch('https://privilegecare-deploy.onrender.com/pediatria/poblarNacimientos/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sql_query)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Tabla poblada con éxito:', data);
+                        // this.loadData(); // Aquí se eliminó la llamada a this.loadData()
+                    })
+                    .catch(error => {
+                        console.error('Error al poblar la tabla:', error);
+                    });
+            },
+
+            EliminarNacimientos() {
+                const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc';
+                const sql_query = "call test.sp_limpiar_nacimientos();";
+
+                fetch('https://privilegecare-deploy.onrender.com/pediatria/poblarNacimientos/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sql_query)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Nacimientos eliminados con éxito:', data);
+                        // this.loadData(); // Aquí se eliminó la llamada a this.loadData()
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar los nacimientos:', error);
+                    });
+            },
     obtenerTotalSQL() {
       const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOb21icmVfVXN1YXJpbyI6InlhaXIiLCJDb3JyZW9fRWxlY3Ryb25pY28iOiJzdHJpbmciLCJDb250cmFzZW5hIjoiMTIzNCIsIk51bWVyb19UZWxlZm9uaWNvX01vdmlsIjoic3RyaW5nIn0.aEXy_fgDdUHif1wzhfpxddKVg4fWAyGR3fd1p-SWDOc'; 
       fetch('https://privilegecare-deploy.onrender.com/pediatria/nacimientogenero',{
